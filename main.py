@@ -1,9 +1,13 @@
 import os
 import sys
 
+import PyQt5
 import requests
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+from PyQt5.uic.properties import QtGui
+from PyQt5.QtCore import Qt
+
 
 SCREEN_SIZE = [600, 450]
 
@@ -49,6 +53,21 @@ class Example(QWidget):
     def closeEvent(self, event):
         """При закрытии формы подчищаем за собой"""
         os.remove(self.map_file)
+
+    def keyPressEvent(self, event):
+        try:
+            if event.key() == 16777238:  # pqup
+                if not self.z == 17:
+                    self.z += 1
+            if event.key() == 16777239:  # pgdown
+                if not self.z == 0:
+                    self.z -= 1
+            print(self.z)
+            self.getImage()
+            self.pixmap = QPixmap(self.map_file)
+            self.image.setPixmap(self.pixmap)
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':
