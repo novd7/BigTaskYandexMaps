@@ -56,12 +56,22 @@ class Example(QWidget):
 
     def keyPressEvent(self, event):
         try:
+            print(event.key())
             if event.key() == 16777238:  # pqup
                 if not self.z == 17:
                     self.z += 1
-            if event.key() == 16777239:  # pgdown
+            elif event.key() == 16777239:  # pgdown
                 if not self.z == 0:
                     self.z -= 1
+            elif event.key() == 16777235:  # up
+                self.lattitude = str(float(self.lattitude) + 0.005)
+            elif event.key() == 16777237:  # down
+                self.lattitude = str(float(self.lattitude) - 0.005)
+            elif event.key() == 16777234:  # left
+                self.longtitude = str(float(self.longtitude) - 0.005)
+            elif event.key() == 16777236:  # right
+                self.longtitude = str(float(self.longtitude) + 0.005)
+
             print(self.z)
             self.getImage()
             self.pixmap = QPixmap(self.map_file)
