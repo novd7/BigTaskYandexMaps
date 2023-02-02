@@ -18,7 +18,7 @@ class Example(QWidget):
         self.lattitude = str(lat)
         self.longtitude = str(lon)
         self.z = z
-        # self.delta = "0.005"
+        self.l = "sat"
         self.getImage()
         self.initUI()
 
@@ -26,7 +26,7 @@ class Example(QWidget):
         map_params = {
             "ll": ",".join([self.longtitude, self.lattitude]),
             # "spn": ",".join([self.delta, self.delta]),
-            "l": "map",
+            "l": self.l,
             "z": self.z
         }
 
@@ -35,7 +35,7 @@ class Example(QWidget):
         response = requests.get(map_api_server, params=map_params)
 
         # Запишем полученное изображение в файл.
-        self.map_file = "map.png"
+        self.map_file = "map.jpg"
         with open(self.map_file, "wb") as file:
             file.write(response.content)
 
@@ -56,7 +56,6 @@ class Example(QWidget):
 
     def keyPressEvent(self, event):
         try:
-            print(event.key())
             if event.key() == 16777238:  # pqup
                 if not self.z == 17:
                     self.z += 1
@@ -71,8 +70,13 @@ class Example(QWidget):
                 self.longtitude = str(float(self.longtitude) - 0.005)
             elif event.key() == 16777236:  # right
                 self.longtitude = str(float(self.longtitude) + 0.005)
+            elif event.key() == 77:  # m
+                self.l = "map"
+            elif event.key() == 83:  # s
+                self.l = "sat"
+            elif event.key() == 72:  # h
+                self.l = "skl"
 
-            print(self.z)
             self.getImage()
             self.pixmap = QPixmap(self.map_file)
             self.image.setPixmap(self.pixmap)
@@ -81,7 +85,7 @@ class Example(QWidget):
 
 
 if __name__ == '__main__':
-
+    print("m-схема\ns-спутник\nh-гибрид")
     app = QApplication(sys.argv)
     lattitude = 55.703118
     longtitude = 37.530887
